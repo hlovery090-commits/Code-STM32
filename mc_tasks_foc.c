@@ -35,7 +35,7 @@
 #include "mc_app_hooks.h"
 
 /* USER CODE BEGIN Includes */
-#include "ann_foc_full.h"
+#include "ann_1layer.h"
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private define */
@@ -633,7 +633,7 @@ static void ANN_UpdateVqPrediction_Full(uint8_t bMotor)
 
   /* Input order must match INPUT_NAMES in the MATLAB training script:
      {I_D_MEAS, I_Q_MEAS, I_Q_REF, ENCODER_SPEED} */
-  vq_pred = ANN_FULL_Predict(i_d_meas, i_q_meas, i_q_ref, speed);
+  vq_pred = ANN_1L_Predict(i_d_meas, i_q_meas, i_q_ref, speed);
 
   /* Debug capture - inspect these at a breakpoint to tell a bad prediction
      apart from bad/stale input data. */
@@ -643,7 +643,7 @@ static void ANN_UpdateVqPrediction_Full(uint8_t bMotor)
   g_ann_dbg_in[3] = speed;
   g_ann_dbg_vq_pred_raw = vq_pred;
 
-  if (ANN_FULL_IsLastPredictionValid() != 0U)
+  if (ANN_1L_IsLastPredictionValid() != 0U)
   {
     g_vq_cached_full  = vq_pred * VOLTAGE_SCALE_F;
     g_ann_full_active = 1U;
